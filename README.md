@@ -4,6 +4,10 @@
 
 This repository provides a MATLAB interface for [GEMMul8 v1.0.0](https://github.com/RIKEN-RCCS/GEMMul8), enabling its use on MATLAB running on Windows.
 
+> [!NOTE]
+> Legacy cuBLAS INT8 GEMM implementations may not be supported on newer-generation GPUs.  
+> Installation of the latest CUDA Toolkit is therefore recommended.
+
 ## Building the Library on Windows
 
 1. Open `Gemmul8_MATLAB/build.bat` with a text editor such as Notepad  
@@ -18,28 +22,28 @@ This repository provides a MATLAB interface for [GEMMul8 v1.0.0](https://github.
 
    Target GPU architecture (`GPU_ARCH`) can be found from [CUDA GPU Compute Capability](https://developer.nvidia.com/cuda-gpus).
 
-2. Open the standard Windows Command Prompt.
+3. Open the standard Windows Command Prompt.
 
-3. In the Command Prompt, run the following command
+4. In the Command Prompt, run the following command
    (replace `2022` with the installed Visual Studio version if necessary):
 
    ```bat
    "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvars64.bat"
    ```
 
-4. Change the directory to the `Gemmul8_MATLAB` folder.
+5. Change the directory to the `Gemmul8_MATLAB` folder.
 
    ```bat
    cd PATH_TO_Gemmul8_MATLAB
    ```
 
-5. To build the static library of GEMMul8, execute:
+6. To build the static library of GEMMul8, execute:
 
    ```bat
    build.bat
    ```
 
-6. In the MATLAB Command Window, execute:
+7. In the MATLAB Command Window, execute:
 
    ```matlab
    oz2_compile
