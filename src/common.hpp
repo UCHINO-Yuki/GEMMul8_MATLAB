@@ -13,6 +13,9 @@
 #include <cmath>
 #include <cstdint>
 #include <cstdlib>
+#ifndef _WIN32
+    #include <dlfcn.h>
+#endif
 #include <iostream>
 #include <random>
 #include <string>

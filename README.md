@@ -2,7 +2,7 @@
 
 ## Overview
 
-This repository provides a MATLAB interface for [GEMMul8 v1.0.2](https://github.com/RIKEN-RCCS/GEMMul8), enabling its use on MATLAB running on Windows.
+This repository provides a MATLAB interface for [GEMMul8 v1.1.0](https://github.com/RIKEN-RCCS/GEMMul8), enabling its use on MATLAB running on Windows.
 
 > [!NOTE]
 > Legacy cuBLAS INT8 GEMM implementations may not be supported on newer-generation GPUs.  

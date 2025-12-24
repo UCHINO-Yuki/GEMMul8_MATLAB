@@ -218,7 +218,7 @@ __forceinline__ void extract_8i_launch(
     if (!skip_scalA) {
         if (op_A == CUBLAS_OP_N) {
             // m*k -> k*m
-            dim3 threads1(TILE_DIM, TILE_DIM);
+            constexpr dim3 threads1(TILE_DIM, TILE_DIM);
             dim3 grid((m + (TILE_DIM - 1)) / TILE_DIM, (lda8i + (TILE_DIM - 1)) / TILE_DIM);
             compute_sft_extract_kernel<T><<<grid.x, threads1>>>(m, k, A, lda, sftA);
             extract_A8i_kernel<T><<<grid, threads1>>>(m, k, A, lda, A8i, lda8i, sftA);
@@ -234,7 +234,7 @@ __forceinline__ void extract_8i_launch(
             extract_B8i_kernel<T><<<n, threads_scaling>>>(k, B, ldb, reinterpret_cast<char4 *>(B8i), ldb8i >> 2, sftB);
         } else {
             // n*k -> k*n
-            dim3 threads1(TILE_DIM, TILE_DIM);
+            constexpr dim3 threads1(TILE_DIM, TILE_DIM);
             dim3 grid((n + (TILE_DIM - 1)) / TILE_DIM, (ldb8i + (TILE_DIM - 1)) / TILE_DIM);
             compute_sft_extract_kernel<T><<<grid.x, threads1>>>(n, k, B, ldb, sftB);
             extract_A8i_kernel<T><<<grid, threads1>>>(n, k, B, ldb, B8i, ldb8i, sftB);
@@ -275,12 +275,12 @@ __forceinline__ void scaling_launch(
         if (op_A == CUBLAS_OP_N) {
             // m*k -> k*m
             dim3 grid((m + (TILE_DIM - 1)) / TILE_DIM, (lda8i + (TILE_DIM - 1)) / TILE_DIM);
-            dim3 threads1(TILE_DIM, TILE_DIM);
+            constexpr dim3 threads1(TILE_DIM, TILE_DIM);
             compute_sft_rowwise_kernel<<<grid.x, threads1>>>(m, n, C32i, ldc32i, sftA, log2P);
             oz2::real::fast::scalingA_kernel<T, ITER><<<grid, threads1>>>(m, k, incA8i, num_moduli, A, lda, A8i, lda8i, sftA);
         } else {
             // k*m -> k*m
-            dim3 threads1(TILE_DIM, TILE_DIM);
+            constexpr dim3 threads1(TILE_DIM, TILE_DIM);
             compute_sft_rowwise_kernel<<<(m + (TILE_DIM - 1)) / TILE_DIM, threads1>>>(m, n, C32i, ldc32i, sftA, log2P);
             scalingB_kernel<T, ITER><<<m, threads_scaling>>>(k, incA8i >> 2, num_moduli, A, lda, reinterpret_cast<char4 *>(A8i), lda8i >> 2, sftA);
         }
@@ -295,7 +295,7 @@ __forceinline__ void scaling_launch(
             // n*k -> k*n
             compute_sft_colwise_kernel<<<n, threads_scaling>>>(m, C32i, ldc32i, sftB, log2P);
             dim3 grid((n + (TILE_DIM - 1)) / TILE_DIM, (ldb8i + (TILE_DIM - 1)) / TILE_DIM);
-            dim3 threads2(TILE_DIM, TILE_DIM);
+            constexpr dim3 threads2(TILE_DIM, TILE_DIM);
             oz2::real::fast::scalingA_kernel<T, ITER><<<grid, threads2>>>(n, k, incB8i, num_moduli, B, ldb, B8i, ldb8i, sftB);
         }
     }

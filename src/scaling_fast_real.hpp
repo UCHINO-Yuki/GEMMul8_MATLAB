@@ -241,7 +241,7 @@ __forceinline__ void scaling_launch(
         if (op_A == CUBLAS_OP_N) {
             // m*k -> k*m
             dim3 grid((m + (TILE_DIM - 1)) / TILE_DIM, (lda8i + (TILE_DIM - 1)) / TILE_DIM);
-            dim3 threads1(TILE_DIM, TILE_DIM);
+            constexpr dim3 threads1(TILE_DIM, TILE_DIM);
             compute_sftA_kernel<T><<<grid.x, threads1>>>(m, k, A, lda, sftA, log2P);
             scalingA_kernel<T, ITER><<<grid, threads1>>>(m, k, incA8i, num_moduli, A, lda, A8i, lda8i, sftA);
         } else {
@@ -257,7 +257,7 @@ __forceinline__ void scaling_launch(
         } else {
             // n*k -> k*n
             dim3 grid((n + (TILE_DIM - 1)) / TILE_DIM, (ldb8i + (TILE_DIM - 1)) / TILE_DIM);
-            dim3 threads1(TILE_DIM, TILE_DIM);
+            constexpr dim3 threads1(TILE_DIM, TILE_DIM);
             compute_sftA_kernel<T><<<grid.x, threads1>>>(n, k, B, ldb, sftB, log2P);
             scalingA_kernel<T, ITER><<<grid, threads1>>>(n, k, incB8i, num_moduli, B, ldb, B8i, ldb8i, sftB);
         }

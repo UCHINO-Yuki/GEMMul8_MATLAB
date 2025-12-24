@@ -245,7 +245,7 @@ __forceinline__ void extract_8i_launch(
     if (!skip_scalA) {
         if (op_A == CUBLAS_OP_N) {
             // m*k -> k*m
-            dim3 threads1(TILE_DIM, TILE_DIM);
+            constexpr dim3 threads1(TILE_DIM, TILE_DIM);
             dim3 grid((m + (TILE_DIM - 1)) / TILE_DIM, (lda8i + (TILE_DIM - 1)) / TILE_DIM);
             compute_sft_extract_kernel<T><<<grid.x, threads1>>>(m, k, A, lda, sftA);
             extract_A8i_kernel<T><<<grid, threads1>>>(m, k, A, lda, A8i[0], A8i[1], A8i[2], lda8i, sftA);
@@ -269,7 +269,7 @@ __forceinline__ void extract_8i_launch(
                                                           ldb8i >> 2, sftB);
         } else {
             // n*k -> k*n
-            dim3 threads1(TILE_DIM, TILE_DIM);
+            constexpr dim3 threads1(TILE_DIM, TILE_DIM);
             dim3 grid((n + (TILE_DIM - 1)) / TILE_DIM, (ldb8i + (TILE_DIM - 1)) / TILE_DIM);
             compute_sft_extract_kernel<T><<<grid.x, threads1>>>(n, k, B, ldb, sftB);
             extract_A8i_kernel<T><<<grid, threads1>>>(n, k, B, ldb, B8i[0], B8i[1], B8i[2], ldb8i, sftB);
@@ -310,12 +310,12 @@ __forceinline__ void scaling_launch(
         if (op_A == CUBLAS_OP_N) {
             // m*k -> k*m
             dim3 grid((m + (TILE_DIM - 1)) / TILE_DIM, (lda8i + (TILE_DIM - 1)) / TILE_DIM);
-            dim3 threads1(TILE_DIM, TILE_DIM);
+            constexpr dim3 threads1(TILE_DIM, TILE_DIM);
             compute_sft_rowwise_kernel<<<grid.x, threads1>>>(m, n, C32i[0], C32i[1], ldc32i, sftA, log2P);
             oz2::complex::fast::scalingA_kernel<T, ITER><<<grid, threads1>>>(m, k, incA8i, num_moduli, A, lda, A8i[0], A8i[1], A8i[2], lda8i, sftA);
         } else {
             // k*m -> k*m
-            dim3 threads1(TILE_DIM, TILE_DIM);
+            constexpr dim3 threads1(TILE_DIM, TILE_DIM);
             compute_sft_rowwise_kernel<<<(m + (TILE_DIM - 1)) / TILE_DIM, threads1>>>(m, n, C32i[0], C32i[1], ldc32i, sftA, log2P);
             if (op_A == CUBLAS_OP_T) {
                 scalingB_kernel<T, ITER, false><<<m, threads_scaling>>>(k, incA8i >> 2, num_moduli, A, lda,
@@ -346,7 +346,7 @@ __forceinline__ void scaling_launch(
             // n*k -> k*n
             compute_sft_colwise_kernel<<<n, threads_scaling>>>(m, C32i[0], C32i[1], ldc32i, sftB, log2P);
             dim3 grid((n + (TILE_DIM - 1)) / TILE_DIM, (ldb8i + (TILE_DIM - 1)) / TILE_DIM);
-            dim3 threads2(TILE_DIM, TILE_DIM);
+            constexpr dim3 threads2(TILE_DIM, TILE_DIM);
             if (op_B == CUBLAS_OP_T) {
                 oz2::complex::fast::scalingA_kernel<T, ITER, false><<<grid, threads2>>>(n, k, incB8i, num_moduli, B, ldb, B8i[0], B8i[1], B8i[2], ldb8i, sftB);
             } else {
