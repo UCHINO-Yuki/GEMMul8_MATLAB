@@ -95,7 +95,6 @@ all: $(LIB_TARGET)
 $(LIB_TARGET): $(CU_OBJS)
 	mkdir -p lib
 	ar rcs $@ $^
-	cd testing && $(MAKE) $(MAKE_FLAGS)
 
 %.o: %.cu $(HEADERS)
 	$(COMPILER) $(FLAGS) $(ARCH) -c $< -o $@

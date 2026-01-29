@@ -10,13 +10,20 @@ This repository provides a MATLAB interface for [GEMMul8 v1.1.0](https://github.
 
 ## Building the Library on Mac/Linux
 
-1. To build the static library of GEMMul8, execute:
+1. To get the source code, execute:
 
    ```bat
+   git clone https://github.com/UCHINO-Yuki/GEMMul8_MATLAB
+   ```
+
+2. To build the static library of GEMMul8, execute:
+
+   ```bat
+   cd GEMMul8_MATLAB
    make -j8
    ```
 
-2. In the MATLAB Command Window, execute:
+3. In the MATLAB Command Window, execute:
 
    ```matlab
    oz2_compile
