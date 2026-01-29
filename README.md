@@ -8,6 +8,20 @@ This repository provides a MATLAB interface for [GEMMul8 v1.1.0](https://github.
 > Legacy cuBLAS INT8 GEMM implementations may not be supported on newer-generation GPUs.  
 > Installation of the latest CUDA Toolkit is therefore recommended.
 
+## Building the Library on Mac/Linux
+
+1. To build the static library of GEMMul8, execute:
+
+   ```bat
+   make -j8
+   ```
+
+2. In the MATLAB Command Window, execute:
+
+   ```matlab
+   oz2_compile
+   ```
+
 ## Building the Library on Windows
 
 1. Open `Gemmul8_MATLAB/build.bat` with a text editor such as Notepad  
